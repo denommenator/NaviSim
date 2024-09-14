@@ -20,7 +20,7 @@
         ctx.restore();
     </script>
     <p>
-    <canvas id="helper" width="150" height="150"></canvas>
+    <canvas id="helper" width="150" height="150" style="background-image: url(BTS_mat.png); background-size: contain"></canvas>
     </p>
     <script src = "drawing_helper.js"></script>
     <script src = "vector.js"></script>
@@ -39,11 +39,11 @@
             let scale = width / backround_mat.naturalWidth
             height = scale * backround_mat.naturalHeight
             canvas2.height = height
-            context.drawImage(backround_mat, 0, 0, backround_mat.naturalWidth, backround_mat.naturalHeight, 0, 0, width, height)
+            //context.drawImage(backround_mat, 0, 0, backround_mat.naturalWidth, backround_mat.naturalHeight, 0, 0, width, height)
 
             let helper = new DrawingHelper(context, height, width / 800);
             p_0 = new Vec2(0, 0);
-            p_1 = new Vec2(800, 400);
+            p_1 = new Vec2(800, 800);
 
             helper.drawLine(p_0, p_1)
         });
@@ -51,6 +51,9 @@
         
 
     </script>
+    <p>
+        <canvas id="helper2" width="150" height="150" style="background-image: url(BTS_mat.png); background-size: contain"></canvas>
+    </p>
 </body>
 </html>
 
