@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<body id="body">
+Add commands:
+
+<ul>
+    <li>
+<form id="drive_straight_form">
+    <label>Drive straight: 
+        <span>
+            <input type="number" id="distance" />
+        </span>
+        <input type="radio" id="forwards" value="forwards" name="backwards_toggle" checked="checked">
+        <label for="forwards">(forwards)</label></input>
+        <input type="radio" id="backwards" value="backwards" name="backwards_toggle">
+        <label for="backwards">(backwards)</label></input>
+    </label>
+    <button type="submit">Add command</button>
+</form>
+</li>
+<li>
+<form id="turn_form">
+    <label>Turn: 
+        <span>
+            <input type="number" id="degrees" />
+        </span>
+        <input type="radio" id="left" value="right" name="turn_toggle" checked="checked">
+        <label for="left">(left)</label></input>
+        <input type="radio" id="right" value="right" name="turn_toggle">
+        <label for="right">(right)</label></input>
+    </label>
+    <button type="submit">Add command</button>
+</form>
+</li>
+</ul>
+<p id="log"></p>
+
+
+<script>
+    daaata=[]
+    function logSubmit(event) {
+        var getSelectedValue = document.querySelector( 'input[name="backwards_toggle"]:checked');   
+        
+        log.textContent = `Form Submitted! ` + distance.value + " " + getSelectedValue.value;
+        daaata.push(1);
+        event.preventDefault();
+    }
+
+    const form = document.getElementById("drive_straight_form");
+    const log = document.getElementById("log");
+    
+    form.addEventListener("submit", logSubmit);
+
+
+</script>
+</body>
+</html>

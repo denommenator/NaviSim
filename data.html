@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<body id="body">
+Add commands:
+
+<form id="clicked">
+    <button type="submit">Click</button>
+</form>
+
+
+<script>
+    daaata=[1]
+
+    function was_clicked(event){
+        daaata.push(2)
+        event.preventDefault()
+    }
+
+    document.forms.clicked.addEventListener("submit", was_clicked)
+</script>
+</body>
+</html>

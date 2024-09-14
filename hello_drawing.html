@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<body id="body">
+    <canvas id="tutorial" width="150" height="150"></canvas>
+    <script>
+        const canvas = document.getElementById("tutorial")
+        const ctx = canvas.getContext("2d")
+
+        ctx.fillStyle = "rgb(200 0 0)";
+        ctx.fillRect(10, 10, 50, 50);
+
+        ctx.fillStyle = "rgb(0 0 200 / 50%)";
+        ctx.fillRect(30, 30, 50, 50);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(10, 10);
+        ctx.lineTo(20, 20);
+        ctx.stroke();
+        ctx.restore();
+    </script>
+    <p>
+    <canvas id="helper" width="150" height="150"></canvas>
+    </p>
+    <script src = "drawing_helper.js"></script>
+    <script src = "vector.js"></script>
+    <script>
+        const canvas2 = document.getElementById("helper")
+        const context = canvas2.getContext("2d")
+
+        let helper = new DrawingHelper(context);
+        p_0 = new Vec2(10, 10);
+        p_1 = new Vec2(100, 150);
+
+        helper.drawLine(p_0, p_1)
+
+    </script>
+</body>
+</html>
+
