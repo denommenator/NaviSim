@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<body id="body">
+    <p>
+    <canvas id="helper" width="150" height="150" style="background-image: url(BTS_mat.png); background-size: contain"></canvas>
+    </p>
+    <script src = "drawing_helper.js"></script>
+    <script src = "vector.js"></script>
+    <script src = "directions.js"></script>
+    <script>
+        const backround_mat = new Image();
+        backround_mat.src = "BTS_mat.png";
+       
+        const canvas2 = document.getElementById("helper")
+        const context = canvas2.getContext("2d")
+
+        const width = (canvas2.width = 0.8 * window.innerWidth);
+        let height = (canvas2.height = 0.8 * window.innerHeight);
+
+        //let scale = 
+        backround_mat.addEventListener("load", () => {
+            let scale = width / backround_mat.naturalWidth
+            height = scale * backround_mat.naturalHeight
+            canvas2.height = height
+            //context.drawImage(backround_mat, 0, 0, backround_mat.naturalWidth, backround_mat.naturalHeight, 0, 0, width, height)
+
+            let helper = new DrawingHelper(context, height, width / 800);
+            let startPoint = new Vec2(400, 0)
+            let startAngle = Math.PI / 2.0
+
+            let directions = new Directions(startPoint, startAngle)
+
+            directions.push_direction(new Straight(200, DriveStraightDirection.Forward))
+            directions.push_direction(new Turn(Math.PI / 2.0, TurnDirection.Right))
+            directions.push_direction(new Straight(200, DriveStraightDirection.Forward))
+
+            drawDirections(directions, helper)
+        });
+
+        
+
+    </script>
+</body>
+</html>
+

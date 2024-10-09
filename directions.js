@@ -1,3 +1,7 @@
+const DirectionType = Object.freeze({
+    Turn: "Turn",
+    Drive: "Drive"
+});
 
 const TurnDirection = Object.freeze({
     Left: "Left",
@@ -15,6 +19,7 @@ class Turn
     {
         this.degrees = degrees
         this.turnDirection = turnDirection
+        this.type = DirectionType.Turn
     }
 }
 
@@ -24,6 +29,7 @@ class Straight
     {
         this.distance = distance
         this.driveDirection = driveDirection
+        this.type = DirectionType.Drive
     }
 }
 
@@ -32,32 +38,69 @@ class Straight
 
 class Directions
 {
-    constructor(startPoint, startDirection)
+    constructor(startPoint, startAngleRadians)
     {
         this.startPoint = startPoint
-        this.startDirection = startDirection
-        this.directions = new Map()
-        this.current_id = 0
+        this.startAngleRadians = startAngleRadians
+        this.directions = []
     }
 
-    add_direction(direction)
+    push_direction(direction)
     {
-        let id = get_new_id()
-        this.directions.set(id, direction)
-        return id
+        this.directions.push(direction)
     }
 
-    get_new_id()
+    edit_direction(id, direction)
     {
-        let prev_id = this.current_id
-        this.current_id++;
-        return prev_id
+        this.directions[id] = direction
+    }
+
+    get_direction(id)
+    {
+        return this.directions[id]
+    }
+
+    count()
+    {
+        return this.directions.length
     }
 }
 
 
-class DirectionView
+function drawDirections(directions, drawing_helper)
 {
+    let currentAngle = directions.startAngleRadians
+    let currentPosition = directions.startPoint
 
+    let previousPosition = currentPosition
+
+    let i = 0
+    while(i < directions.count())
+    {
+        let currentDirection = directions.get_direction(i)
+
+        if(currentDirection.type == DirectionType.Turn)
+        {
+            
+            let sign = ((currentDirection.turnDirection == TurnDirection.Left) ? 1 : -1)
+            currentAngle += sign * currentDirection.degrees
+            console.log('new heading: ', currentAngle)
+        }
+        else
+        {
+            let heading = new Vec2(Math.cos(currentAngle), Math.sin(currentAngle))
+            let sign = ((currentDirection.driveDirection == DriveStraightDirection.Forward) ? 1 : -1)
+            let nextPosition = Vec2.add(currentPosition, Vec2.scale(sign, Vec2.scale(currentDirection.distance, heading)))
+
+            drawing_helper.drawLine(currentPosition, nextPosition)
+
+            console.log('new location: ', nextPosition.x, nextPosition.y)
+
+            currentPosition = nextPosition
+        }
+        
+        i++
+
+    }
 }
 
