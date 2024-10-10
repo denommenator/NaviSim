@@ -26,12 +26,12 @@
 
             let helper = new DrawingHelper(context, height, width / 800);
             let startPoint = new Vec2(400, 0)
-            let startAngle = Math.PI / 2.0
+            let startAngle = 90
 
             let directions = new Directions(startPoint, startAngle)
 
             directions.push_direction(new Straight(200, DriveStraightDirection.Forward))
-            directions.push_direction(new Turn(Math.PI / 2.0, TurnDirection.Right))
+            directions.push_direction(new Turn(90, TurnDirection.Right))
             directions.push_direction(new Straight(200, DriveStraightDirection.Forward))
 
             drawDirections(directions, helper)

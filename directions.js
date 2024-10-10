@@ -38,16 +38,21 @@ class Straight
 
 class Directions
 {
-    constructor(startPoint, startAngleRadians)
+    constructor(startPoint, startAngle)
     {
         this.startPoint = startPoint
-        this.startAngleRadians = startAngleRadians
+        this.startAngle = startAngle
         this.directions = []
     }
 
     push_direction(direction)
     {
         this.directions.push(direction)
+    }
+
+    pop_direction()
+    {
+        this.directions.pop()
     }
 
     edit_direction(id, direction)
@@ -69,7 +74,8 @@ class Directions
 
 function drawDirections(directions, drawing_helper)
 {
-    let currentAngle = directions.startAngleRadians
+    let degreesToRadians = Math.PI / 180
+    let currentAngle = directions.startAngle
     let currentPosition = directions.startPoint
 
     let previousPosition = currentPosition
@@ -88,7 +94,7 @@ function drawDirections(directions, drawing_helper)
         }
         else
         {
-            let heading = new Vec2(Math.cos(currentAngle), Math.sin(currentAngle))
+            let heading = new Vec2(Math.cos(degreesToRadians * currentAngle), Math.sin(degreesToRadians * currentAngle))
             let sign = ((currentDirection.driveDirection == DriveStraightDirection.Forward) ? 1 : -1)
             let nextPosition = Vec2.add(currentPosition, Vec2.scale(sign, Vec2.scale(currentDirection.distance, heading)))
 

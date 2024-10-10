@@ -24,7 +24,7 @@ Add commands:
         <span>
             <input type="number" id="degrees" />
         </span>
-        <input type="radio" id="left" value="right" name="turn_toggle" checked="checked">
+        <input type="radio" id="left" value="left" name="turn_toggle" checked="checked">
         <label for="left">(left)</label></input>
         <input type="radio" id="right" value="right" name="turn_toggle">
         <label for="right">(right)</label></input>
@@ -32,24 +32,57 @@ Add commands:
     <button type="submit">Add command</button>
 </form>
 </li>
+<li>
+    <form id="pop_direction_form">
+        <label>Delete Direction: 
+        <button type="submit">Delete Last Direction</button>
+    </form>
+    </li>
 </ul>
 <p id="log"></p>
 
-
+<script src = "vector.js"></script>
+<script src = "directions.js"></script>
 <script>
-    daaata=[]
-    function logSubmit(event) {
-        var getSelectedValue = document.querySelector( 'input[name="backwards_toggle"]:checked');   
+    
+    let startPoint = new Vec2(400, 0)
+    let startAngle = 90
+    daaata = new Directions(startPoint, startAngle)
+
+    function driveStraightSubmit(event) {
+        var backwardsSelector = document.querySelector( 'input[name="backwards_toggle"]:checked');   
         
-        log.textContent = `Form Submitted! ` + distance.value + " " + getSelectedValue.value;
-        daaata.push(1);
+        log.textContent = `Drive straight submitted! ` + distance.value + " " + backwardsSelector.value;
+        let backwards_flag = backwardsSelector.value == 'forwards' ? DriveStraightDirection.Forward : DriveStraightDirection.Backward
+        daaata.push_direction(new Straight(distance.value, backwards_flag))
         event.preventDefault();
     }
 
-    const form = document.getElementById("drive_straight_form");
-    const log = document.getElementById("log");
+    function turnSubmit(event) {
+        var directionSelector = document.querySelector( 'input[name="turn_toggle"]:checked');   
+        
+        log.textContent = `Turn submitted! ` + degrees.value + " " + directionSelector.value;
+        let direction_flag = directionSelector.value == 'left' ? TurnDirection.Left : TurnDirection.Right
+        daaata.push_direction(new Turn(degrees.value, direction_flag))
+        event.preventDefault();
+    }
+
+    function popDirectionSubmit(event) {
+        var directionSelector = document.querySelector( 'input[name="turn_toggle"]:checked');   
+        
+        log.textContent = `Direction delete submitted! `
+        daaata.pop_direction()
+        event.preventDefault();
+    }
+
+    const driveStraightForm = document.getElementById("drive_straight_form")
+    const turnForm = document.getElementById("turn_form")
+    const popDirectionForm = document.getElementById("pop_direction_form")
+    const log = document.getElementById("log")
     
-    form.addEventListener("submit", logSubmit);
+    driveStraightForm.addEventListener("submit", driveStraightSubmit)
+    turnForm.addEventListener("submit", turnSubmit)
+    popDirectionForm.addEventListener("submit", popDirectionSubmit)
 
 
 </script>
