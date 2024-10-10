@@ -90,7 +90,6 @@ function drawDirections(directions, drawing_helper)
             
             let sign = ((currentDirection.turnDirection == TurnDirection.Left) ? 1 : -1)
             currentAngle += sign * currentDirection.degrees
-            console.log('new heading: ', currentAngle)
         }
         else
         {
@@ -99,8 +98,6 @@ function drawDirections(directions, drawing_helper)
             let nextPosition = Vec2.add(currentPosition, Vec2.scale(sign, Vec2.scale(currentDirection.distance, heading)))
 
             drawing_helper.drawLine(currentPosition, nextPosition)
-
-            console.log('new location: ', nextPosition.x, nextPosition.y)
 
             currentPosition = nextPosition
         }
@@ -162,4 +159,91 @@ function serializeDirections(directions, displayParagraph)
         displayParagraph.appendChild(document.createElement("br"))
     }
 
+}
+
+class RobotTracker
+{
+    constructor(straight_speed, rotation_speed)
+    {
+        this.straight_speed=straight_speed
+        this.rotation_speed=rotation_speed
+    }
+
+    timeForTurn(direction)
+    {
+        return direction.degrees / this.rotation_speed
+    }
+
+    timeForDriveStraight(direction)
+    {
+        return direction.distance / this.straight_speed
+    }
+
+    timeForDirection(direction)
+    {
+        if(direction.type == DirectionType.Drive)
+        {
+            return this.timeForDriveStraight(direction)
+        }
+        else if (direction.type == DirectionType.Turn)
+        {
+            return this.timeForTurn(direction)
+        }
+    }
+
+    get_location_rotation(directions, time)
+    {
+        let currentLocation = directions.startPoint
+        let currentAngle = directions.startAngle
+
+        let nextLocation = currentLocation
+        let nextAngle = currentAngle
+
+        let t = 0
+
+        let degreesToRadians = Math.PI / 180
+        for(const currentDirection of directions.directions)
+        {
+            if(currentDirection.type == DirectionType.Turn)
+            {
+                
+                let sign = ((currentDirection.turnDirection == TurnDirection.Left) ? 1 : -1)
+                nextLocation = currentLocation
+                nextAngle = currentAngle + sign * currentDirection.degrees
+
+            }
+            else
+            {
+                let heading = new Vec2(Math.cos(degreesToRadians * currentAngle), Math.sin(degreesToRadians * currentAngle))
+                let sign = ((currentDirection.driveDirection == DriveStraightDirection.Forward) ? 1 : -1)
+                nextLocation = Vec2.add(currentLocation, Vec2.scale(sign, Vec2.scale(currentDirection.distance, heading)))
+                nextAngle = currentAngle
+            }
+            
+
+            let direction_time = this.timeForDirection(currentDirection)
+            if(t + direction_time < time)
+            {
+                currentLocation = nextLocation
+                currentAngle = nextAngle
+                t += direction_time
+            }
+            else
+            {
+                let ret = new Object()
+
+                let direction_completion_ratio = (time - t) / direction_time
+                let s = direction_completion_ratio
+                ret.angle = (1 - s) * currentAngle + s * nextAngle
+
+                ret.location = Vec2.add(Vec2.scale(1 - s, currentLocation), Vec2.scale(s, nextLocation))
+                
+                return ret
+            }
+        }
+        let ret = new Object()
+            ret.angle = currentAngle
+            ret.location = currentLocation
+            return ret
+    }
 }
