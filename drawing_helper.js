@@ -31,6 +31,17 @@ class DrawingHelper{
         
     }
 
+    drawImage(p, rotationDegrees, image)
+    {
+        this.context.save()
+        let p_pixel_space = this.worldToPixelSpace(p)
+        this.context.translate(p_pixel_space.x, p_pixel_space.y)
+        this.context.rotate(Math.PI / 180 * rotationDegrees)
+
+        this.context.drawImage(image, -15, -15, 30, 30)
+        this.context.restore()
+    }
+
     drawLine(p_0, p_1)
     {
         this.drawLinePixels(this.worldToPixelSpace(p_0), this.worldToPixelSpace(p_1))

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<body id="body">
+    <canvas id="navigation_visual" width="150" height="150" style="background-image: url(BTS_mat.png); background-size: contain"></canvas>
+    <script src = "drawing_helper.js"></script>
+    <script src = "vector.js"></script>
+    <script>
+        const backround_mat = new Image()
+        backround_mat.src = "BTS_mat.png"
+        const robot_img = new Image()
+        robot_img.src = "robot.png"
+    
+        let current_time = 0
+        let refresh_time = 20
+        let speed = 800 / 2
+        let rotation_speed = 360 / 2
+       
+        const canvas2 = document.getElementById("navigation_visual")
+        const context = canvas2.getContext("2d")
+
+        const width = (canvas2.width = 0.8 * window.innerWidth);
+        let height = (canvas2.height = 0.8 * window.innerHeight);
+
+        //let scale = 
+        backround_mat.addEventListener("load", () => {
+            
+
+            window.setInterval(draw, refresh_time)
+
+        });
+
+        
+        
+        
+    
+        
+        function draw()
+        {
+            const canvas = document.getElementById("navigation_visual")
+            const context = canvas.getContext("2d")
+
+            let scale = width / backround_mat.naturalWidth
+            height = scale * backround_mat.naturalHeight
+            canvas2.height = height
+            //context.drawImage(backround_mat, 0, 0, backround_mat.naturalWidth, backround_mat.naturalHeight, 0, 0, width, height)
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            let helper = new DrawingHelper(context, height, width / 800);
+            p_0 = new Vec2(0, 0);
+            p_1 = new Vec2(800, 800);
+
+
+            helper.drawLine(p_0, p_1)
+            let p = new Vec2(speed * current_time, speed * current_time)
+            helper.drawImage(p, rotation_speed * current_time, robot_img)
+            
+            
+    
+            current_time += refresh_time / 1000
+        }
+        
+
+    </script>
+   
+</body>
+</html>
+
