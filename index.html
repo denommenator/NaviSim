@@ -88,16 +88,12 @@ Start Position:
             <span>
                 <input type="number" id="start_y" />
             </span>
-            </li>
-            <li>
+        </li>
+        <li>
             (start angle) 
             <span>
                 <input type="number" id="start_angle" />
             </span>
-            </li>
-            
-        
-        
         </li>
     </ul>
     <button type="submit">Reset Start Position</button>
@@ -167,10 +163,14 @@ Add commands:
     function startPositionSubmit(event) {
         var backwardsSelector = document.querySelector( 'input[name="backwards_toggle"]:checked');   
         
-        log.textContent = `Start position update submitted! (` + start_x.value + ", " + start_y.value + ") angle: " + start_angle.value
-        daaata.startPoint = new Vec2(start_x.value, start_y.value)
-        daaata.startAngle = start_angle.value
+        let x = parseFloat(start_x.value)
+        let y = parseFloat(start_y.value)
+        let angle = parseFloat(start_angle.value)
+        daaata.startPoint = new Vec2(x, y)
+        daaata.startAngle = angle
         
+        console.log(`Start position update submitted! (` + x + ", " + y + ") angle: " + angle)
+
         updateDirectionsDisplay()
         event.preventDefault()
     }
@@ -180,7 +180,7 @@ Add commands:
         
         log.textContent = `Drive straight submitted! ` + distance.value + " " + backwardsSelector.value;
         let backwards_flag = backwardsSelector.value == 'forwards' ? DriveStraightDirection.Forward : DriveStraightDirection.Backward
-        daaata.push_direction(new Straight(distance.value, backwards_flag))
+        daaata.push_direction(new Straight(parseFloat(distance.value), backwards_flag))
 
         updateDirectionsDisplay()
         event.preventDefault()
@@ -191,7 +191,7 @@ Add commands:
         
         log.textContent = `Turn submitted! ` + degrees.value + " " + directionSelector.value;
         let direction_flag = directionSelector.value == 'left' ? TurnDirection.Left : TurnDirection.Right
-        daaata.push_direction(new Turn(degrees.value, direction_flag))
+        daaata.push_direction(new Turn(parseFloat(degrees.value), direction_flag))
 
         updateDirectionsDisplay()
         event.preventDefault()
