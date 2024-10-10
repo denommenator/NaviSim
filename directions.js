@@ -110,3 +110,56 @@ function drawDirections(directions, drawing_helper)
     }
 }
 
+function serializeDriveStraight(direction)
+{
+    if(direction.driveDirection == DriveStraightDirection.Forward)
+    {
+        return 'Drive forward: ' + direction.distance + ' cm'
+    }
+    else
+    {
+        return 'Drive backward: ' + direction.distance + 'cm'
+    }
+}
+
+function serializeTurn(direction)
+{
+    if(direction.turnDirection == TurnDirection.Left)
+    {
+        return 'Turn left: ' + direction.degrees + ' degrees'
+    }
+    else
+    {
+        return 'Turn right: ' + direction.degrees + 'degrees'
+    }
+}
+
+function serializeDirection(direction)
+{
+    if(direction.type == DirectionType.Drive)
+    {
+        return serializeDriveStraight(direction)
+    }
+    else if (direction.type == DirectionType.Turn)
+    {
+        return serializeTurn(direction)
+    }
+    else
+        return ''
+}
+
+function serializeDirections(directions, displayParagraph)
+{
+    displayParagraph.appendChild(document.createTextNode('Start position: (' + directions.startPoint.x + ', ' + directions.startPoint.y + ')'))
+    displayParagraph.appendChild(document.createElement("br"))
+
+    displayParagraph.appendChild(document.createTextNode('Start angle: ' + directions.startAngle))
+    displayParagraph.appendChild(document.createElement("br"))
+
+    for (const direction of directions.directions) 
+    {
+        displayParagraph.appendChild(document.createTextNode('+' + serializeDirection(direction)))
+        displayParagraph.appendChild(document.createElement("br"))
+    }
+
+}
