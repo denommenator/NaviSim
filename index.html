@@ -1,6 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <body id="body">
+<script src = "drawing_helper.js"></script>
+<script src = "vector.js"></script>
+<script src = "directions.js"></script>
+<p>
+<canvas id="navigation_visual" width="150" height="150" style="background-image: url(BTS_mat.png); background-size: contain"></canvas>
+</p>
+
+<script>
+    const backround_mat = new Image();
+    backround_mat.src = "BTS_mat.png";
+    
+    const canvas = document.getElementById("navigation_visual")
+    const context = canvas.getContext("2d")
+
+    const width = (canvas.width = 0.8 * window.innerWidth);
+    let height = (canvas.height = 0.8 * window.innerHeight);
+    let drawingHelper = null
+
+    //let scale = 
+    backround_mat.addEventListener("load", () => {
+        let scale = width / backround_mat.naturalWidth
+        height = scale * backround_mat.naturalHeight
+        canvas.height = height
+        //context.drawImage(backround_mat, 0, 0, backround_mat.naturalWidth, backround_mat.naturalHeight, 0, 0, width, height)
+
+        drawingHelper = new DrawingHelper(context, height, width / 800)
+        // let startPoint = new Vec2(400, 0)
+        // let startAngle = 90
+
+        // let directions = new Directions(startPoint, startAngle)
+
+        // directions.push_direction(new Straight(200, DriveStraightDirection.Forward))
+        // directions.push_direction(new Turn(90, TurnDirection.Right))
+        // directions.push_direction(new Straight(200, DriveStraightDirection.Forward))
+
+        // drawDirections(directions, drawingHelper)
+    })
+
+    function visualizeDirections(directions)
+    {
+        console.log('Made it here!')
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        drawDirections(directions, drawingHelper)
+    }
+
+    
+
+</script>
+
 <p>
 Start Position:
 <form id="start_position_form">
@@ -76,8 +125,6 @@ Add commands:
 
 <p id="log"></p>
 
-<script src = "vector.js"></script>
-<script src = "directions.js"></script>
 <script>
     
     let startPoint = new Vec2(400, 0)
@@ -90,6 +137,7 @@ Add commands:
             directions_display.removeChild(directions_display.firstChild);
         }
         serializeDirections(daaata, directions_display)
+        visualizeDirections(daaata)
     }
 
     function startPositionSubmit(event) {
