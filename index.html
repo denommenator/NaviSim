@@ -72,6 +72,8 @@ Add commands:
 </ul>
 </p>
 
+<p id="directions_display"></p>
+
 <p id="log"></p>
 
 <script src = "vector.js"></script>
@@ -82,13 +84,23 @@ Add commands:
     let startAngle = 90
     daaata = new Directions(startPoint, startAngle)
 
+    function updateDirectionsDisplay()
+    {
+        while (directions_display.firstChild) {
+            directions_display.removeChild(directions_display.firstChild);
+        }
+        serializeDirections(daaata, directions_display)
+    }
+
     function startPositionSubmit(event) {
         var backwardsSelector = document.querySelector( 'input[name="backwards_toggle"]:checked');   
         
         log.textContent = `Start position update submitted! (` + start_x.value + ", " + start_y.value + ") angle: " + start_angle.value
         daaata.startPoint = new Vec2(start_x.value, start_y.value)
         daaata.startAngle = start_angle.value
-        event.preventDefault();
+        
+        updateDirectionsDisplay()
+        event.preventDefault()
     }
 
     function driveStraightSubmit(event) {
@@ -97,7 +109,9 @@ Add commands:
         log.textContent = `Drive straight submitted! ` + distance.value + " " + backwardsSelector.value;
         let backwards_flag = backwardsSelector.value == 'forwards' ? DriveStraightDirection.Forward : DriveStraightDirection.Backward
         daaata.push_direction(new Straight(distance.value, backwards_flag))
-        event.preventDefault();
+
+        updateDirectionsDisplay()
+        event.preventDefault()
     }
 
     function turnSubmit(event) {
@@ -106,7 +120,9 @@ Add commands:
         log.textContent = `Turn submitted! ` + degrees.value + " " + directionSelector.value;
         let direction_flag = directionSelector.value == 'left' ? TurnDirection.Left : TurnDirection.Right
         daaata.push_direction(new Turn(degrees.value, direction_flag))
-        event.preventDefault();
+
+        updateDirectionsDisplay()
+        event.preventDefault()
     }
 
     function popDirectionSubmit(event) {
@@ -114,7 +130,9 @@ Add commands:
         
         log.textContent = `Direction delete submitted! `
         daaata.pop_direction()
-        event.preventDefault();
+
+        updateDirectionsDisplay()
+        event.preventDefault()
     }
 
     const startPositionForm = document.getElementById("start_position_form")
