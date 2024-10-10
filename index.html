@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <body id="body">
+<p>
+Start Position:
+<form id="start_position_form">
+    <ul>
+        <li>
+            (x) 
+            <span>
+                <input type="number" id="start_x" />
+            </span>
+        </li>
+        <li>
+            (y) 
+            <span>
+                <input type="number" id="start_y" />
+            </span>
+            </li>
+            <li>
+            (start angle) 
+            <span>
+                <input type="number" id="start_angle" />
+            </span>
+            </li>
+            
+        
+        
+        </li>
+    </ul>
+    <button type="submit">Reset Start Position</button>
+</form>
+</p>
+<p>
 Add commands:
 
 <ul>
-    <li>
+<li>
 <form id="drive_straight_form">
     <label>Drive straight: 
         <span>
@@ -39,6 +70,8 @@ Add commands:
     </form>
     </li>
 </ul>
+</p>
+
 <p id="log"></p>
 
 <script src = "vector.js"></script>
@@ -48,6 +81,15 @@ Add commands:
     let startPoint = new Vec2(400, 0)
     let startAngle = 90
     daaata = new Directions(startPoint, startAngle)
+
+    function startPositionSubmit(event) {
+        var backwardsSelector = document.querySelector( 'input[name="backwards_toggle"]:checked');   
+        
+        log.textContent = `Start position update submitted! (` + start_x.value + ", " + start_y.value + ") angle: " + start_angle.value
+        daaata.startPoint = new Vec2(start_x.value, start_y.value)
+        daaata.startAngle = start_angle.value
+        event.preventDefault();
+    }
 
     function driveStraightSubmit(event) {
         var backwardsSelector = document.querySelector( 'input[name="backwards_toggle"]:checked');   
@@ -75,11 +117,13 @@ Add commands:
         event.preventDefault();
     }
 
+    const startPositionForm = document.getElementById("start_position_form")
     const driveStraightForm = document.getElementById("drive_straight_form")
     const turnForm = document.getElementById("turn_form")
     const popDirectionForm = document.getElementById("pop_direction_form")
     const log = document.getElementById("log")
     
+    startPositionForm.addEventListener("submit", startPositionSubmit)
     driveStraightForm.addEventListener("submit", driveStraightSubmit)
     turnForm.addEventListener("submit", turnSubmit)
     popDirectionForm.addEventListener("submit", popDirectionSubmit)
