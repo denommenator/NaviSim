@@ -53,6 +53,7 @@
 
     let current_time = 0
     let refresh_time = 20
+    let restart_time = 1000
     let speed = 100
     let rotation_speed = 360 / 2
     let robotTracker = new RobotTracker(speed, rotation_speed)
@@ -67,6 +68,10 @@
         drawingHelper.drawImage(locAngle.location, locAngle.angle, robot_img)
 
         current_time += refresh_time / 1000
+        if(current_time > robotTracker.getDirectionsTotalTime(daaata) + restart_time / 1000)
+        {
+            current_time = 0
+        }
     }
 
     
@@ -81,6 +86,7 @@
 .column_short {
     float: left;
     width: 30%;
+    background-color: rgb(173, 216, 230);
   }
 </style>
 
@@ -204,6 +210,7 @@ Add commands:
 
         updateDirectionsDisplay()
         event.preventDefault()
+        distance.value = ""
     }
 
     function turnSubmit(event) {
@@ -215,6 +222,7 @@ Add commands:
 
         updateDirectionsDisplay()
         event.preventDefault()
+        degrees.value = ""
     }
 
     function popDirectionSubmit(event) {

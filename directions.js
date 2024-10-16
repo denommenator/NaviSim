@@ -191,6 +191,17 @@ class RobotTracker
         }
     }
 
+    getDirectionsTotalTime(directions)
+    {
+        let t = 0
+
+        for(const currentDirection of directions.directions)
+        {
+            t += this.timeForDirection(currentDirection)
+        }
+        return t
+    }
+
     get_location_rotation(directions, time)
     {
         let currentLocation = directions.startPoint
