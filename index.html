@@ -17,8 +17,8 @@
     const canvas = document.getElementById("navigation_visual")
     const context = canvas.getContext("2d")
 
-    const width = (canvas.width = 0.8 * window.innerWidth);
-    let height = (canvas.height = 0.8 * window.innerHeight);
+    const width = (canvas.width = 0.97 * window.innerWidth);
+    let height = (canvas.height = 0.97 * window.innerHeight);
     let drawingHelper = null
 
 
@@ -126,7 +126,7 @@ Add commands:
 <form id="drive_straight_form">
     <label>Drive straight: 
         <span>
-            <input type="number" id="distance" />
+            <input type="number" id="distance" placeholder="cm"/>
         </span>
         <input type="radio" id="forwards" value="forwards" name="backwards_toggle" checked="checked">
         <label for="forwards">(forwards)</label></input>
@@ -140,7 +140,7 @@ Add commands:
 <form id="turn_form">
     <label>Turn: 
         <span>
-            <input type="number" id="degrees" />
+            <input type="number" id="degrees" placeholder="degrees"/>
         </span>
         <input type="radio" id="left" value="left" name="turn_toggle" checked="checked">
         <label for="left">(left)</label></input>
