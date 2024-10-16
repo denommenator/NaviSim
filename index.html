@@ -5,14 +5,14 @@
 <script src = "vector.js"></script>
 <script src = "directions.js"></script>
 <p>
-<canvas id="navigation_visual" width="150" height="150" style="background-image: url(BTS_mat.png); background-size: contain"></canvas>
+<canvas id="navigation_visual" width="150" height="150" style="background-image: url(HorizonMat.png); background-size: contain"></canvas>
 </p>
 
 <script>
     const backround_mat = new Image();
-    backround_mat.src = "BTS_mat.png";
+    backround_mat.src = "HorizonMat.png";
     const robot_img = new Image()
-        robot_img.src = "robot.png"
+        robot_img.src = "robot2.png"
     
     const canvas = document.getElementById("navigation_visual")
     const context = canvas.getContext("2d")
@@ -73,6 +73,19 @@
 
 </script>
 
+<style>
+.column_long {
+    float: left;
+    width: 70%;
+  }
+.column_short {
+    float: left;
+    width: 30%;
+  }
+</style>
+
+<div>
+<div class="column_long">
 <p>
 Start Position:
 <form id="start_position_form">
@@ -139,15 +152,22 @@ Add commands:
     </li>
 </ul>
 </p>
-
+</div>
+<div class="column_short">
 <p id="directions_display"></p>
 
+</div>
+</div>
 <p id="log"></p>
 
 <script>
     
-    let startPoint = new Vec2(400, 0)
+    let startPoint = new Vec2(606, 66)
     let startAngle = 90
+
+    start_x.value = startPoint.x
+    start_y.value = startPoint.y
+    start_angle.value = startAngle
     daaata = new Directions(startPoint, startAngle)
 
     function updateDirectionsDisplay()
@@ -178,7 +198,7 @@ Add commands:
     function driveStraightSubmit(event) {
         var backwardsSelector = document.querySelector( 'input[name="backwards_toggle"]:checked');   
         
-        log.textContent = `Drive straight submitted! ` + distance.value + " " + backwardsSelector.value;
+        //log.textContent = `Drive straight submitted! ` + distance.value + " " + backwardsSelector.value;
         let backwards_flag = backwardsSelector.value == 'forwards' ? DriveStraightDirection.Forward : DriveStraightDirection.Backward
         daaata.push_direction(new Straight(parseFloat(distance.value), backwards_flag))
 
@@ -189,7 +209,7 @@ Add commands:
     function turnSubmit(event) {
         var directionSelector = document.querySelector( 'input[name="turn_toggle"]:checked');   
         
-        log.textContent = `Turn submitted! ` + degrees.value + " " + directionSelector.value;
+        //log.textContent = `Turn submitted! ` + degrees.value + " " + directionSelector.value;
         let direction_flag = directionSelector.value == 'left' ? TurnDirection.Left : TurnDirection.Right
         daaata.push_direction(new Turn(parseFloat(degrees.value), direction_flag))
 
@@ -200,7 +220,7 @@ Add commands:
     function popDirectionSubmit(event) {
         var directionSelector = document.querySelector( 'input[name="turn_toggle"]:checked');   
         
-        log.textContent = `Direction delete submitted! `
+        //log.textContent = `Direction delete submitted! `
         daaata.pop_direction()
 
         updateDirectionsDisplay()
