@@ -31,14 +31,21 @@ class DrawingHelper{
         
     }
 
-    drawImage(p, rotationDegrees, image)
+    drawImage(p, rotationDegrees, image, scale, rotCenterX, rotCenterY)
     {
         this.context.save()
+
+        let pixelWidth = scale * image.naturalWidth
+        let pixelHeight = scale * image.naturalHeight
+
+        let bottomLeftX = scale * rotCenterX
+        let bottomLeftY = scale * rotCenterY
+
         let p_pixel_space = this.worldToPixelSpace(p)
         this.context.translate(p_pixel_space.x, p_pixel_space.y)
         this.context.rotate(- Math.PI / 180 * rotationDegrees)
 
-        this.context.drawImage(image, -15, -15, 30, 30)
+        this.context.drawImage(image, -bottomLeftX, -bottomLeftY, pixelWidth, pixelHeight)
         this.context.restore()
     }
 

@@ -12,7 +12,7 @@
     const backround_mat = new Image();
     backround_mat.src = "HorizonMat.png";
     const robot_img = new Image()
-        robot_img.src = "robot2.png"
+        robot_img.src = "SpikePrimeRobotCar.png"
     
     const canvas = document.getElementById("navigation_visual")
     const context = canvas.getContext("2d")
@@ -65,7 +65,7 @@
         context.clearRect(0, 0, canvas.width, canvas.height);
         drawDirections(daaata, drawingHelper)
         let locAngle = robotTracker.get_location_rotation(daaata, current_time)
-        drawingHelper.drawImage(locAngle.location, locAngle.angle, robot_img)
+        drawingHelper.drawImage(locAngle.location, locAngle.angle, robot_img, 0.3, 91, 160)
 
         current_time += refresh_time / 1000
         if(current_time > robotTracker.getDirectionsTotalTime(daaata) + restart_time / 1000)
